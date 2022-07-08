@@ -29,10 +29,15 @@
 		<thead>
 			<tr>
 				<th scope="col">ID</th>
+				
 				<th scope="col">Nome da Tarefa</th>
+				
 				<th scope="col">Data da Tarefa</th>
+				
 				<th scope="col">Hora da Tarefa</th>
+				
 				<th scope="col">#</th>
+				
 				<th scope="col">#</th>
 			</tr>
 		</thead>
@@ -40,15 +45,32 @@
 		<tbody>
 			<tr data-th-each="t : ${tarefas}">
 				<td data-th-text="${t.id}"></td>
+				
 				<td data-th-text="${t.tarefa}"></td>
+				
 				<td data-th-text="${#dates.format(t.data, 'dd/MM/yyyy')}"></td>
+				
 				<td data-th-text="${#dates.format(t.hora, 'HH:mm')}"></td>
+				
 				<td><a th:href="@{'/edit/'+${t.id}}"><button
 							class="btn btn-warning">Editar</button></a></td>
-				<td><a th:href="@{'/delete/'+${t.id}}"><button
-							class="btn btn-danger">Excluir</button></a></td>
+				
+				<td>
+					<button class="btn btn-danger"
+							th:onclick="confirmarExclusao([(${t.id})])">
+						Excluir
+					</button>
+				</td>
 			</tr>
 		</tbody>
 	</table>
+	
+	<script>
+		function confirmarExclusao(idTarefa) {
+			if(confirm("Deseja realmente excluir esta tarefa?")) {
+				location.href = "/delete/"+idTarefa;
+			}
+		}
+	</script>
 </body>
 </html>

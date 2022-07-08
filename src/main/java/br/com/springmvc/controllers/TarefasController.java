@@ -1,6 +1,6 @@
 package br.com.springmvc.controllers;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -17,12 +17,11 @@ import br.com.springmvc.models.Tarefa;
 @Controller
 public class TarefasController {
 
-	List<Tarefa> tarefas = new ArrayList<Tarefa>();
+	List<Tarefa> tarefas = new LinkedList<>();
 
 	@GetMapping("/create")
 	public ModelAndView home(Tarefa tarefa) {
 		ModelAndView mv = new ModelAndView("create");
-
 		return mv;
 	}
 
