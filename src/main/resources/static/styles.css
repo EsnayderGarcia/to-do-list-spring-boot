@@ -1,0 +1,12 @@
+body {
+	padding: 15px;
+}
+
+.message-error {
+	margin-top: 10px;
+}
+
+.invalid-feedback {
+	font-size: 18px;
+}
+

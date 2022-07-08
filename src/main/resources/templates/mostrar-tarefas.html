@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadastro de Tarefas</title>
+<!-- CSS only -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+
+<link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg bg-light"
+		style="margin: 0 0 20px 0;">
+		<div class="container-start">
+			<a class="navbar-brand" href="/create">Cadastrar Tarefa</a> <a
+				class="navbar-brand" href="/mostrar-tarefas">Minhas Tarefas</a>
+		</div>
+	</nav>
+
+	<h1 class="text-center">Minhas Tarefas</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">ID</th>
+				<th scope="col">Nome da Tarefa</th>
+				<th scope="col">Data da Tarefa</th>
+				<th scope="col">Hora da Tarefa</th>
+				<th scope="col">#</th>
+				<th scope="col">#</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr data-th-each="t : ${tarefas}">
+				<td data-th-text="${t.id}"></td>
+				<td data-th-text="${t.tarefa}"></td>
+				<td data-th-text="${#dates.format(t.data, 'dd/MM/yyyy')}"></td>
+				<td data-th-text="${#dates.format(t.hora, 'HH:mm')}"></td>
+				<td><a th:href="@{'/edit/'+${t.id}}"><button
+							class="btn btn-warning">Editar</button></a></td>
+				<td><a th:href="@{'/delete/'+${t.id}}"><button
+							class="btn btn-danger">Excluir</button></a></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
