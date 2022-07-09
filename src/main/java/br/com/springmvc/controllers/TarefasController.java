@@ -1,7 +1,7 @@
 package br.com.springmvc.controllers;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -17,7 +17,7 @@ import br.com.springmvc.models.Tarefa;
 @Controller
 public class TarefasController {
 
-	List<Tarefa> tarefas = new LinkedList<>();
+	Map<Long, Tarefa> tarefas = new HashMap<>();
 
 	@GetMapping("/create")
 	public ModelAndView home(Tarefa tarefa) {
@@ -27,63 +27,59 @@ public class TarefasController {
 
 	@PostMapping("/create")
 	public ModelAndView create(@Valid Tarefa t, BindingResult result) {
+		
 		if(result.hasErrors()) {
 			return home(t);
 		}
 		
 		ModelAndView mv = new ModelAndView("redirect:/mostrar-tarefas");
-
-		Long id = tarefas.size() + 1l;
+		
+		Long id = null;
+		Long cont = 1L;
+		
+		while(true) {
+			id = tarefas.size() + cont;
+			
+			if (tarefas.get(id) == null) {
+				break;
+			}
+			
+			cont++;
+		}
 		
 		if (t.getId() == null) {
 			Tarefa tarefa = new Tarefa(id, t.getTarefa(), t.getData(), t.getHora());
-			tarefas.add(tarefa);
-		} else {
-			for (Tarefa tarefa : tarefas) {
-				if (tarefa.getId() == t.getId()) {
-					int index = tarefas.indexOf(tarefa);
-					tarefas.set(index, t);
-				}
-			}
+			tarefas.put(id, tarefa);
+		} 
+		else {
+			tarefas.remove(t.getId());
+			tarefas.put(t.getId(), t);
 		}
-		
 		return mv;
 	}
 
 	@GetMapping("/mostrar-tarefas")
 	public ModelAndView mostrarTarefas() {
+		
 		ModelAndView mv = new ModelAndView("mostrar-tarefas");
 		mv.addObject("tarefas", tarefas);
-
+		
 		return mv;
 	}
 
 	@GetMapping("edit/{id}")
 	public ModelAndView editar(@PathVariable Long id) {
+		
 		ModelAndView mv = new ModelAndView("create");
-
-		for (Tarefa tarefa : tarefas) {
-			if (tarefa.getId() == id) {
-				mv.addObject("tarefa", tarefa);
-				break;
-			}
-		}
-
+		mv.addObject("tarefa", tarefas.get(id));
+		
 		return mv;
 	}
 
 	@GetMapping("/delete/{id}")
 	public String deletar(@PathVariable Long id) {
-		int index = 0;
-
-		for (Tarefa tarefa : tarefas) {
-			if (tarefa.getId() == id) {
-				index = tarefas.indexOf(tarefa);
-				break;
-			}
-		}
-		tarefas.remove(index);
-
+		
+		tarefas.remove(id);
 		return "redirect:/mostrar-tarefas";
 	}
 }

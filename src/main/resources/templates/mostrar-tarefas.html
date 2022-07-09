@@ -43,7 +43,7 @@
 		</thead>
 
 		<tbody>
-			<tr data-th-each="t : ${tarefas}">
+			<tr data-th-each="t : ${tarefas.values()}">
 				<td data-th-text="${t.id}"></td>
 				
 				<td data-th-text="${t.tarefa}"></td>
