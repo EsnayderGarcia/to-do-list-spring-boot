@@ -21,8 +21,7 @@ public class TarefasController {
 
 	@GetMapping("/create")
 	public ModelAndView home(Tarefa tarefa) {
-		ModelAndView mv = new ModelAndView("create");
-		return mv;
+		return new ModelAndView("create");
 	}
 
 	@PostMapping("/create")
@@ -31,8 +30,6 @@ public class TarefasController {
 		if (result.hasErrors()) {
 			return home(t);
 		}
-
-		ModelAndView mv = new ModelAndView("redirect:/mostrar-tarefas");
 
 		if (t.getId() == null) {
 			Long id = null;
@@ -53,7 +50,8 @@ public class TarefasController {
 			tarefas.remove(t.getId());
 			tarefas.put(t.getId(), t);
 		}
-		return mv;
+		
+		return new ModelAndView("redirect:/mostrar-tarefas");
 	}
 
 	@GetMapping("/mostrar-tarefas")
